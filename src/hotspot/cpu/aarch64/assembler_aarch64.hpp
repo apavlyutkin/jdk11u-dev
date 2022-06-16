@@ -261,7 +261,7 @@ public:
   void sf(int64_t val, int msb, int lsb) {
     int nbits = msb - lsb + 1;
     int64_t chk = val >> (nbits - 1);
-    guarantee (chk == -1 || chk == 0, "Field too big for insn");
+    //guarantee (chk == -1 || chk == 0, "Field too big for insn");
     unsigned uval = val;
     unsigned mask = checked_cast<unsigned>(right_n_bits(nbits));
     uval &= mask;

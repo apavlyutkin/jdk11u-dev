@@ -39,7 +39,7 @@ import static java.lang.String.format;
 import static java.lang.System.arraycopy;
 
 /* @test
- * @bug 8235385
+ * @bug 8235385 8287508
  * @summary Verifies non-volatile memory access with long offset
  * @requires os.arch == "aarch64"
  */
@@ -414,23 +414,21 @@ public class NonVolatileMemoryAccessWithLongOffset {
         if (sum != bytes2long(rawBytes, offset)) throw new RuntimeException("sum does not match");
         offset += LONG_SIZE;
 
+        byte[] maxValue_ = new byte[MAX_VALUE_LENGTH];
+        byte[] minValue_ = new byte[MAX_VALUE_LENGTH];
         if (version > 50) {
-            byte[] maxValue_ = new byte[MAX_VALUE_LENGTH];
             System.arraycopy(rawBytes, offset, maxValue_, 0, MAX_VALUE_LENGTH);
             offset += MAX_VALUE_LENGTH;
             if (!Arrays.equals(maxValue, maxValue_)) throw new RuntimeException("maxValue does not match");
 
-            byte[] minValue_ = new byte[MAX_VALUE_LENGTH];
             System.arraycopy(rawBytes, offset, minValue_, 0, MAX_VALUE_LENGTH);
             offset += MAX_VALUE_LENGTH;
             if (!Arrays.equals(minValue, minValue_)) throw new RuntimeException("minValue does not match");
         } else {
-            byte[] maxValue_ = new byte[DECIMAL_MAX_VALUE_LENGTH];
             System.arraycopy(rawBytes, offset, maxValue_, 0, DECIMAL_MAX_VALUE_LENGTH);
             offset += DECIMAL_MAX_VALUE_LENGTH;
             if (!Arrays.equals(maxValue, maxValue_)) throw new RuntimeException("maxValue does not match");
 
-            byte[] minValue_ = new byte[DECIMAL_MAX_VALUE_LENGTH];
             System.arraycopy(rawBytes, offset, minValue_, 0, DECIMAL_MAX_VALUE_LENGTH);
             offset += DECIMAL_MAX_VALUE_LENGTH;
             if (!Arrays.equals(minValue, minValue_)) throw new RuntimeException("minValue does not match");
